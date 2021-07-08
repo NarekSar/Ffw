@@ -1,5 +1,0 @@
-Citizen.CreateThread( function()
-    SetEntityCoordsNoOffset(PlayerPedId(), 27.98, -1031.78, 28.79, 0.0, 0.0, 0.0)
-    Wait(5000)
-    local testPed = Cars.create("adder", {x = 27.98, y = -1031.78, z = 28.79, w = 0.0}, true)
-end)
