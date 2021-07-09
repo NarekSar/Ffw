@@ -14,6 +14,7 @@ Cars.__index = Cars
     *Modify car model*
     [retVal]:setPrimaryColor(5) -- Set premiary vehicle color
     [retVal]:setSecondaryColor(5) -- Set secondary vehicle color
+    [retVal]:SetVehicleNumberPlateText("Location") -- Set plate of vehicle
 ]]
 
 function Cars.create(Hash, Pos, Sync)
@@ -76,6 +77,13 @@ function Cars:setSecondaryColor(int)
     if self.exist then
         local colorPrimary, colorSecondary = GetVehicleColours(self.id)
         SetVehicleColours(self.id, colorPrimary, int)
+    end
+end
+
+function Cars:setPlate(string)
+    Wait(50)
+    if self.exist then
+        SetVehicleNumberPlateText(self.id, string)
     end
 end
 
