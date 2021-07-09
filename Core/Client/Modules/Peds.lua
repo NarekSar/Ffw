@@ -48,6 +48,13 @@ function Peds:setInvincible(bool)
     end
 end
 
+function Peds:setPassif(bool)
+    Wait(50)
+    if self.exist then
+        SetBlockingOfNonTemporaryEvents(self.id, bool)
+    end
+end
+
 function Peds:setFreeze(bool)
     Wait(50)
     if self.exist then
