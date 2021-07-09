@@ -17,7 +17,7 @@ Peds.__index = Peds
     *Other*
     [retval]:playScenario("WORLD_FISH_FLEE") -- Play scenario in place
     [retval]:playAnim("mini@strip_club@idles@bouncer@base", "base") -- Play animation in place
-    [retval]:playAnim() -- Stop anim in progress
+    [retval]:stopAnim() -- Stop anim in progress
 ]]
 
 function Peds.create(Hash, Pos, Sync)
