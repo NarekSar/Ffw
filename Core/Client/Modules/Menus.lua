@@ -30,7 +30,9 @@ function Menus:setWidth(newWidth)
 end
 
 function Menus:onClose(methode)
-
+    if methode then
+        methode()
+    end
 end
 
 function Menus:setClosable(bool)
@@ -38,10 +40,10 @@ function Menus:setClosable(bool)
 end
 
 function Menus:headerRender()
-    Ui:setRect((self.pos.x + (self.width/1.9)), (self.pos.y + (MenuSett.background.height/1.7)), self.width, self.height, 0, 0, 0, 150)
-    Ui:setText((self.pos.x + (self.width/1.9)), self.pos.y + (MenuSett.background.height/4), MenuSett.background.txtScale, self.title, 245, 245, 245, 255, 6)
-    Ui:setRect((self.pos.x + (self.width/1.9)), self.pos.y + (MenuSett.background.height/1.4), self.width/2, 2, 245, 245, 245, 255)
-    Ui:setRect((self.pos.x + (self.width/1.9)), self.pos.y + MenuSett.background.height, self.width, 2, 245, 245, 245, 255)
+    Draw:setRect((self.pos.x + (self.width/1.9)), (self.pos.y + (MenuSett.background.height/1.7)), self.width, self.height, 0, 0, 0, 150)
+    Draw:setText((self.pos.x + (self.width/1.9)), self.pos.y + (MenuSett.background.height/4), MenuSett.background.txtScale, self.title, 245, 245, 245, 255, 6)
+    Draw:setRect((self.pos.x + (self.width/1.9)), self.pos.y + (MenuSett.background.height/1.4), self.width/2, 2, 245, 245, 245, 255)
+    Draw:setRect((self.pos.x + (self.width/1.9)), self.pos.y + MenuSett.background.height, self.width, 2, 245, 245, 245, 255)
 end
 
 function Menus:addButton(params)
@@ -64,15 +66,15 @@ function Menus:buttonRender(index, value)
         if not crtY[index] then
             crtY[index] = {}
             crtY[index].selected = false
-            crtY[index].y = self.crtY + (MenuSett.background.height/1.35)
+            crtY[index].y = self.crtY + (MenuSett.background.height/1.46)
             self.crtY = self.crtY + MenuSett.items.height
         end
         if not crtY[index].selected then
-            Ui:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 0, 0, 0, 150)
-            Ui:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 245, 245, 245, 255, 6)
+            Draw:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 0, 0, 0, 150)
+            Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 245, 245, 245, 255, 8)
         else
-            Ui:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 0, 0, 0, 255, 6)
-            Ui:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 245, 245, 245, 255)
+            Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 0, 0, 0, 255, 8)
+            Draw:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 245, 245, 245, 255)
         end
     end
 end
@@ -101,19 +103,24 @@ end
 
 function Menus:listRender(index, value)
     if index <= self.maxBtn then
-        if not crtY[index] then
-            crtY[index] = {}
-            crtY[index].selected = false
-            crtY[index].y = self.crtY + (MenuSett.background.height/1.35)
-            self.crtY = self.crtY + MenuSett.items.height
+        if self.items[index].list then
+            if not crtY[index] then
+                crtY[index] = {}
+                crtY[index].selected = false
+                crtY[index].y = self.crtY + (MenuSett.background.height/1.46)
+                self.crtY = self.crtY + MenuSett.items.height
+            end
+            if not crtY[index].selected then
+                Draw:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 0, 0, 0, 150)
+                Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/2), MenuSett.items.txtScale, self.items[index].label, 245, 245, 245, 255, 8)
+                Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/10), (MenuSett.items.txtScale/1.2), string.format("← %s →", self.items[index].list[self.items[index].index].label), 245, 245, 245, 255, 8)
+            else
+                Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/2), MenuSett.items.txtScale, self.items[index].label, 0, 0, 0, 255, 8)
+                Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/10), (MenuSett.items.txtScale/1.2), string.format("← %s →", self.items[index].list[self.items[index].index].label), 0, 0, 0, 255, 8)
+                Draw:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 245, 245, 245, 255)
+            end
         end
-        if not crtY[index].selected then
-            Ui:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 0, 0, 0, 150)
-            Ui:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 245, 245, 245, 255, 6)
-        else
-            Ui:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/3), MenuSett.items.txtScale, value.label, 0, 0, 0, 255, 6)
-            Ui:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 245, 245, 245, 255)
-        end
+        self:sliderControl()
     end
 end
 
@@ -149,8 +156,10 @@ function Menus:goBack()
         self.parent.index = 1
         self.parent:open()
     else
-        self:onClose()
-        crtMenu = nil
+        if self.canClose then
+            self:onClose()
+            crtMenu = nil
+        end
     end
 end
 
@@ -195,7 +204,11 @@ end
 function Menus:goEnter()
     if IsControlJustPressed(0, 201) then
         if self.items[self.index].onClick then
-            self.items[self.index].onClick()
+            if self.items[self.index].list then
+                self.items[self.index].onClick(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+            else
+                self.items[self.index].onClick()
+            end
         end
         if self.items[self.index].subMenu ~= nil then
             crtY[self.index].selected = false
@@ -209,5 +222,33 @@ function Menus:goReturn()
     if IsControlJustPressed(0, 177) then
         self:goBack()
         PlaySoundFrontend(-1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+    end
+end
+
+function Menus:closeAll()
+    crtMenu = nil
+end
+
+function Menus:sliderControl()
+    if IsControlJustPressed(0, 174) then
+        if self.items[self.index].list[self.items[self.index].index - 1] then
+            self.items[self.index].index = self.items[self.index].index - 1
+            if self.items[self.index].onChange then
+                self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+            end
+        else
+            self.items[self.index].index = #self.items[self.index].list
+        end
+        PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+    elseif IsControlJustPressed(0, 175) then
+        if self.items[self.index].list[self.items[self.index].index + 1] then
+            self.items[self.index].index = self.items[self.index].index + 1
+            if self.items[self.index].onChange then
+                self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+            end
+        else
+            self.items[self.index].index = 1
+        end
+        PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
     end
 end

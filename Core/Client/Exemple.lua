@@ -23,12 +23,17 @@ mainMenu:addButton({
 
 mainMenu:addList({
     label = "Test list",
-    list = {"Test", "Des", "Liste"},
+    list = {
+        {label = "Jte nique", value = "test"},
+        {label = "test", value = "test"},
+        {label = "ntm", value = "test"},
+    },
     index = 1,
-    onChange = function()
-        print("onChange list")
+    onChange = function(Index, Items)
+        print(Index, json.encode(Items))
     end,
-    onClick = function()
+    onClick = function(Index, Items)
+        print(Index, json.encode(Items))
     end,
     subMenu = nil,
 })

@@ -7,7 +7,7 @@ MenuSett = {
         txtScale = 0.95,
     },
     items = {
-        width = 512, height = 64,
-        txtScale = 0.55,
+        width = 512, height = 48,
+        txtScale = 0.35,
     },
 }

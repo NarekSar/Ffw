@@ -24,16 +24,9 @@ function Peds.create(Hash, Pos, Sync)
     local self = {}
     setmetatable(self, Peds)
     
-    Citizen.CreateThread(function()
-        RequestModel(Hash)
-        while not HasModelLoaded(Hash) do
-            RequestModel(Hash)
-            Wait(10)
-        end
-        
-        self.id = CreatePed(1, GetHashKey(Hash), Pos.x, Pos.y, Pos.z, Pos.w, Sync, false)
-        self.exist = DoesEntityExist(self.id)
-    end)
+    Stream:loadModel(Hash)
+    self.id = CreatePed(1, GetHashKey(Hash), Pos.x, Pos.y, Pos.z, Pos.w, Sync, false)
+    self.exist = DoesEntityExist(self.id)
 
     return self
 end
