@@ -126,4 +126,11 @@ function Player:ShowAdvancedNotification(sender, subject, msg, textureDict, icon
 	EndTextCommandThefeedPostTicker(flash or false, saveToBrief)
 end
 
+function Player:setPlayerModel(Hash)
+    Stream:loadModel(Hash)
+    local modelHash = GetHashKey(Hash)
+    SetPlayerModel(self.id, modelHash)
+    SetModelAsNoLongerNeeded(modelHash)
+end
+
 myPlayer = Player.new()
