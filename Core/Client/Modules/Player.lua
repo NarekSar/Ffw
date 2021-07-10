@@ -90,10 +90,31 @@ function Player:DistancePlayer(Pos, Radius)
     return false
 end
 
-function Player:ShowNotification(msg)
-    SetNotificationTextEntry('STRING')
-    AddTextComponentString(msg)
-    DrawNotification(0, 1)
+function Player:notify(params)
+    color = {
+        ["common"] = {0, 0, 0, 185},
+        ["succes"] = {0, 245, 0, 185},
+        ["error"] = {245, 0, 0, 185},
+    }
+    Citizen.CreateThread( function()
+        busy = true
+        self:timerNotif()
+        while busy do
+            Wait(0)
+
+            Draw:setRect(960, 952, 512, 128, color[params.type][1], color[params.type][2], color[params.type][3], color[params.type][4])
+            Draw:setText(960, 890, 0.55, params.title, 245, 245, 245, 245, 8)
+            Draw:setRect(960, 930, 128, 2, 245, 245, 245, 245)
+            Draw:setText(960, 940, 0.35, params.message, 245, 245, 245, 245, 8, 960+512)
+        end
+    end)
+end
+
+function Player:timerNotif()
+    Citizen.CreateThread( function()
+        Wait(5000)
+        busy = false
+    end)
 end
 
 function Player:ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
