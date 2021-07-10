@@ -18,6 +18,22 @@ mainMenu:addButton({
     subMenu = nil,
 })
 
+mainMenu:addList({
+    label = "Véhicule Disponible",
+    list = {
+        {label = "Sultan", value = "sultan"},
+        {label = "Panto", value = "panto"},
+        {label = "Bmx", value = "bmx"},
+    },
+    index = 1,
+    onChange = function(Index, Items)
+        
+    end,
+    onClick = function(Index, Items)
+
+    end,
+})
+
 mainMenu:open()
 mainMenu.onClose = function()
     print("Ntm")
