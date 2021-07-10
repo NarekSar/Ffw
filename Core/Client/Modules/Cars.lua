@@ -14,7 +14,7 @@ Cars.__index = Cars
     *Modify car model*
     [retVal]:setPrimaryColor(5) -- Set premiary vehicle color
     [retVal]:setSecondaryColor(5) -- Set secondary vehicle color
-    [retVal]:SetVehicleNumberPlateText("Location") -- Set plate of vehicle
+    [retVal]:setPlate("Location") -- Set plate of vehicle
 ]]
 
 function Cars.create(Hash, Pos, Sync)
