@@ -17,6 +17,8 @@ Player.__index = Player
     myPlayer:setCoords(vector3(0,0,0), 0) -- Set Player Coords
     myPlayer:FreezePlayer(true/false) -- Freeze Player
     myPlayer:DistancePlayer(vector(0,0,0), Heading) -- Get Distance Pos > Player
+    myPlayer:ShowNotification("Coucou") -- Notification Player
+    myPlayer:ShowAdvancedNotification('title', 'subject', 'msg', "CHAR_ARTHUR", 1) -- Advanced Notification Player
 ]]
 
 
@@ -87,4 +89,20 @@ function Player:DistancePlayer(Pos, Radius)
     end 
     return false
 end
+
+function Player:ShowNotification(msg)
+    SetNotificationTextEntry('STRING')
+    AddTextComponentString(msg)
+    DrawNotification(0, 1)
+end
+
+function Player:ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
+    if saveToBrief == nil then saveToBrief = true end
+	AddTextEntry('AdvancedNotification', msg)
+	BeginTextCommandThefeedPost('AdvancedNotification')
+	if hudColorIndex then ThefeedNextPostBackgroundColor(hudColorIndex) end
+	EndTextCommandThefeedPostMessagetext(textureDict, textureDict, false, iconType, sender, subject)
+	EndTextCommandThefeedPostTicker(flash or false, saveToBrief)
+end
+
 myPlayer = Player.new()
