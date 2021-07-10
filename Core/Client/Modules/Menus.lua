@@ -1,6 +1,6 @@
 Menus = {}
 Menus.__index = Menus
-local crtMenu = nil
+crtMenu = nil
 local crtY = {}
 
 function Menus.create(params)
@@ -17,6 +17,8 @@ function Menus.create(params)
     self.index = 1
     self.crtY = (self.pos.y + (MenuSett.background.height/1.7))
     self.canClose = true
+    self.onClose = params.onClose or nil
+    self.timer = 0
     
     return setmetatable(self, Menus)
 end
@@ -30,6 +32,11 @@ function Menus:setWidth(newWidth)
 end
 
 function Menus:onClose(methode)
+    for _,v in pairs (crtY) do
+        if v.selected then
+            v.selected = false
+        end
+    end
     if methode then
         methode()
     end
@@ -129,7 +136,7 @@ function Menus:open()
         Citizen.CreateThread(function ()
             crtMenu = self
             while crtMenu == self do
-                Wait(0)
+                Wait(self.timer)
                 
                 self:navigation()
                 self:headerRender()
@@ -144,7 +151,7 @@ function Menus:open()
         end)
     else
         if crtMenu.canClose then
-            self:onClose()
+            self:onClose(self.onClose)
             crtMenu = nil
             self:open()
         end
@@ -157,7 +164,7 @@ function Menus:goBack()
         self.parent:open()
     else
         if self.canClose then
-            self:onClose()
+            self:onClose(self.onClose)
             crtMenu = nil
         end
     end
@@ -221,11 +228,17 @@ end
 function Menus:goReturn()
     if IsControlJustPressed(0, 177) then
         self:goBack()
-        PlaySoundFrontend(-1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+        if self.canClose then
+            PlaySoundFrontend(-1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+        else
+            PlaySoundFrontend(-1, "ERROR", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
+        end
     end
 end
 
 function Menus:closeAll()
+    self:onClose(self.onClose)
+    self.timer = 50
     crtMenu = nil
 end
 

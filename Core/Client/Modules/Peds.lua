@@ -10,6 +10,7 @@ Peds.__index = Peds
     [retVal]:setInvincible(true/false) -- Set ped invincible or not
     [retVal]:setFreeze(true/false) -- Set ped freeze or not
     [retVal]:setVisible(true/false) -- Set ped visible or not
+    [retVal]:setPassif(true/false) -- Set ped passif or not
     [retVal]:setArmour(0.0 -> 100.0) -- Set ped armour
     *Modify ped model*
     [retVal]:setAlpha(51/102/153/204/255) -- Set ped opacity
@@ -26,6 +27,7 @@ function Peds.create(Hash, Pos, Sync)
     
     Stream:loadModel(Hash)
     self.id = CreatePed(1, GetHashKey(Hash), Pos.x, Pos.y, Pos.z, Pos.w, Sync, false)
+    self.pos = {x = Pos.x, y = Pos.y, z = Pos.z, w = Pos.w}
     self.exist = DoesEntityExist(self.id)
 
     return self
