@@ -76,7 +76,7 @@ function Player:getArmor()
 end
 
 function Player:IsArmed()
-    return GetPedArmour(self.ped, 4)
+    return IsPedArmed(self.ped, 4)
 end
 
 function Player:IsInCar()
