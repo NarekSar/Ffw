@@ -16,6 +16,7 @@ Player.__index = Player
     myPlayer:giveWeapon("weapon_pistol", 999) -- Give Player Weapon
     myPlayer:setCoords(vector3(0,0,0), 0) -- Set Player Coords
     myPlayer:FreezePlayer(true/false) -- Freeze Player
+    myPlayer:DistancePlayer(vector(0,0,0)) -- Get Distance Pos > Player
 ]]
 
 
@@ -78,6 +79,10 @@ end
 
 function Player:IsInCar()
     return IsPedOnVehicle(self.ped)
+end
+
+function Player:DistancePlayer(Pos)
+    return GetDistanceBetweenCoords(Pos, myPlayer:getCoords(), true)
 end
 
 myPlayer = Player.new()
