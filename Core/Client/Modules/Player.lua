@@ -17,8 +17,11 @@ Player.__index = Player
     myPlayer:setCoords(vector3(0,0,0), 0) -- Set Player Coords
     myPlayer:FreezePlayer(true/false) -- Freeze Player
     myPlayer:DistancePlayer(vector(0,0,0), Heading) -- Get Distance Pos > Player
-    myPlayer:ShowNotification("Coucou") -- Notification Player
-    myPlayer:ShowAdvancedNotification('title', 'subject', 'msg', "CHAR_ARTHUR", 1) -- Advanced Notification Player
+    myPlayer:notify({ -- Add Notification
+	title = "Location",
+	message = 'Le véhicule à bien été ranger !',
+	type = "succes",
+    })
 ]]
 
 
@@ -112,18 +115,9 @@ end
 
 function Player:timerNotif()
     Citizen.CreateThread( function()
-        Wait(5000)
+        Wait(2500)
         busy = false
     end)
-end
-
-function Player:ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
-    if saveToBrief == nil then saveToBrief = true end
-	AddTextEntry('AdvancedNotification', msg)
-	BeginTextCommandThefeedPost('AdvancedNotification')
-	if hudColorIndex then ThefeedNextPostBackgroundColor(hudColorIndex) end
-	EndTextCommandThefeedPostMessagetext(textureDict, textureDict, false, iconType, sender, subject)
-	EndTextCommandThefeedPostTicker(flash or false, saveToBrief)
 end
 
 function Player:setPlayerModel(Hash)
