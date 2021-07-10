@@ -6,9 +6,11 @@ Camera.__index = Camera
     
     local [retVal] = Camera.create(vector3(0, 0, 0), vector3(0, 0, 0)) -- Création Cam | Premier Pos = Cam | Deuxieme Pos = Point ou il regarde
 
-    [retVal]:CamActive() -- Activer la camera
+    [retVal]:CamActive(true/false) -- Activer la camera > True Activé Animation / False Désactiver Animation
 
-    [retVal]:DeleteCam() -- Supprimer la camera
+    [retVal]:DeleteCam(true/false) -- Supprimer la camera > True Activé Animation / False Désactiver Animation
+
+    [retVal]:SetFov(float) -- Set Camera Fov
 ]]
 
 function Camera.create(PosCam, PosHeading)
@@ -23,15 +25,23 @@ function Camera.create(PosCam, PosHeading)
     return setmetatable(self, Camera)
 end
 
-function Camera:CamActive()
+function Camera:CamActive(bool)
     if self.exist then
         SetCamActive(self.id, true)
-        RenderScriptCams(true, true, 2000, true, false)
+        RenderScriptCams(true, bool, 2000, true, false)
     end
 end
 
-function Camera:DeleteCam()
-    SetCamActive(self.id, false)
-	RenderScriptCams(false, true, 2000, true, true)
-    DestroyAllCams(true)
+function Camera:DeleteCam(bool)
+    if self.exist then
+    	SetCamActive(self.id, false)
+	RenderScriptCams(false, bool, 2000, true, true)
+	DestroyCam(self.id, false)
+    end
+end
+
+function Camera:SetFov(float)
+    if self.exist then
+        SetCamFov(self.id, float)
+    end
 end
