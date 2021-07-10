@@ -9,6 +9,8 @@ Camera.__index = Camera
     [retVal]:CamActive(true/false) -- Activer la camera > True Activé Animation / False Désactiver Animation
 
     [retVal]:DeleteCam(true/false) -- Supprimer la camera > True Activé Animation / False Désactiver Animation
+
+    [retVal]:SetFov(float) -- Set Camera Fov
 ]]
 
 function Camera.create(PosCam, PosHeading)
@@ -35,5 +37,11 @@ function Camera:DeleteCam(bool)
     	SetCamActive(self.id, false)
 	RenderScriptCams(false, bool, 2000, true, true)
 	DestroyCam(self.id, false)
+    end
+end
+
+function Camera:SetFov(float)
+    if self.exist then
+        SetCamFov(self.id, float)
     end
 end
