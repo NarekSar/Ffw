@@ -8,7 +8,7 @@ Camera.__index = Camera
 
     [retVal]:CamActive() -- Activer la camera
 
-    [retVal]:DeleteCam() -- Supprimer la camera
+    [retVal]:DeleteCam(true/false) -- Supprimer la camera > True Activé Animation / False Désactiver Animation
 ]]
 
 function Camera.create(PosCam, PosHeading)
