@@ -30,8 +30,10 @@ function Camera:CamActive(bool)
     end
 end
 
-function Camera:DeleteCam()
-    SetCamActive(self.id, false)
-	RenderScriptCams(false, true, 2000, true, true)
-    DestroyAllCams(true)
+function Camera:DeleteCam(bool)
+    if self.exist then
+    	SetCamActive(self.id, false)
+	RenderScriptCams(false, bool, 2000, true, true)
+	DestroyCam(self.id, false)
+    end
 end
