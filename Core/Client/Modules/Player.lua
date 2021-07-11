@@ -23,6 +23,7 @@ Player.__index = Player
 	type = "succes",
     })
     myPlayer:DisplayMap(true/false) -- Off / On Map + Radar
+    myPlayer:MissionNotif("Test", 1500) -- Mission Notif
 ]]
 
 
@@ -132,6 +133,13 @@ end
 
 function Player:DisplayMap(bool) 
     DisplayRadar(bool)
+end
+
+function Player:MissionNotif(msg, time) 
+    ClearPrints()
+    SetTextEntry_2("STRING")
+    AddTextComponentString(msg)
+    DrawSubtitleTimed(time and math.ceil(time) or 0, true)
 end
 
 myPlayer = Player.new()
