@@ -25,14 +25,14 @@ function Camera.create(PosCam, PosHeading)
     return setmetatable(self, Camera)
 end
 
-function Camera:CamActive(bool)
+function Camera:camActive(bool)
     if self.exist then
         SetCamActive(self.id, true)
         RenderScriptCams(true, bool, 2000, true, false)
     end
 end
 
-function Camera:DeleteCam(bool)
+function Camera:deleteCam(bool)
     if self.exist then
     	SetCamActive(self.id, false)
 	RenderScriptCams(false, bool, 2000, true, true)
@@ -40,7 +40,7 @@ function Camera:DeleteCam(bool)
     end
 end
 
-function Camera:SetFov(float)
+function Camera:setFov(float)
     if self.exist then
         SetCamFov(self.id, float)
     end

@@ -80,11 +80,11 @@ function Player:getArmor()
     return GetPedArmour(self.ped)
 end
 
-function Player:IsArmed()
+function Player:isArmed()
     return IsPedArmed(self.ped, 4)
 end
 
-function Player:IsInCar()
+function Player:isInCar()
     return IsPedOnVehicle(self.ped)
 end
 
@@ -132,11 +132,11 @@ function Player:setPlayerModel(Hash)
     SetModelAsNoLongerNeeded(modelHash)
 end
 
-function Player:DisplayMap(bool) 
+function Player:displayMap(bool) 
     DisplayRadar(bool)
 end
 
-function Player:MissionNotif(msg, time) 
+function Player:missionNotif(msg, time) 
     ClearPrints()
     SetTextEntry_2("STRING")
     AddTextComponentString(msg)

@@ -243,24 +243,26 @@ function Menus:closeAll()
 end
 
 function Menus:sliderControl()
-    if IsControlJustPressed(0, 174) then
-        if self.items[self.index].list then
+    if self.items[self.index].list then
+        if IsControlJustPressed(0, 174) then
             if self.items[self.index].list[self.items[self.index].index - 1] then
                 self.items[self.index].index = self.items[self.index].index - 1
                 if self.items[self.index].onChange then
-                    self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                    Citizen.CreateThread( function()
+                        self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                    end)
                 end
             else
                 self.items[self.index].index = #self.items[self.index].list
             end
             PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
-        end
-    elseif IsControlJustPressed(0, 175) then
-        if self.items[self.index].list then
+        elseif IsControlJustPressed(0, 175) then
             if self.items[self.index].list[self.items[self.index].index + 1] then
                 self.items[self.index].index = self.items[self.index].index + 1
                 if self.items[self.index].onChange then
-                    self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                    Citizen.CreateThread( function()
+                        self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                    end)
                 end
             else
                 self.items[self.index].index = 1

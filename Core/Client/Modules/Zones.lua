@@ -17,16 +17,18 @@ function Zones.create(params)
     return setmetatable(self, Zones)
 end
 
-local TestPed = Peds.create("csb_abigail", vector4(-1324.721, 740.2681, 186.2021, 306.1417), false)
+local TestPed = Peds.create("csb_abigail", vector4(-1543.253, 830.0703, 182.1245, 0), false)
 Test = Zones.create({
     ped = TestPed,
     blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
+    --marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
     pos = TestPed.pos,
     radius = 2.0,
     inputText = "Appuyer sur E pour discuter.",
     methode = function()
-        print("test Fct")
+        if IsControlJustReleased(0, 51) then
+            mainMenu:open()
+        end
     end,
 })
 
@@ -40,12 +42,19 @@ Citizen.CreateThread( function()
         Wait(ZoneTiming)
         
         for _,v in pairs (ZonesAdded) do
-            if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
-                ZoneTiming = 0
-                if v.marker ~= nil then
-                    v.marker:showMarker()
+            if v.marker then
+                if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
+                    ZoneTiming = 0
+                    if v.marker ~= nil then
+                        v.marker:showMarker()
+                    end
+                else
+                    ZoneTiming = 500
                 end
-                if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
+            end
+            if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
+                ZoneTiming = 0
+                if not crtMenu then
                     myPlayer:helpNotif(v.inputText)
                     v.methode()
                 end

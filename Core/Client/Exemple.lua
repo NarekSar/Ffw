@@ -1,4 +1,4 @@
-local mainMenu = Menus.create({
+mainMenu = Menus.create({
     title = "Menu d'exemple",
     pos = {x = 0, y = 0},
     width = 431,

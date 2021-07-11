@@ -33,7 +33,3 @@ function Markers:showMarker()
     end
     self.id = DrawMarker(self.type, self.pos.x, self.pos.y, self.pos.z, 0.0, 0.0, 0.0, 0.0, rot, 0.0, self.width, self.width, self.height, self.colour.r, self.colour.g, self.colour.b, self.colour.a, self.blowUp, self.faceCam, 2, nil, nil, false)
 end
-
-function Markers:showMarker()
-    self.id = DrawMarker(self.type, self.pos, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, self.width, self.width, self.height, self.colour.r, self.colour.g, self.colour.b, self.colour.a, self.blowUp, self.faceCam, 2, nil, nil, false)
-end

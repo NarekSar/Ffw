@@ -81,7 +81,7 @@ function Cars:setPlate(string)
     end
 end
 
-function Cars:DeleteCar()
+function Cars:deleteCar()
     Wait(50)
     if self.exist then
         DeleteEntity(self.id)
