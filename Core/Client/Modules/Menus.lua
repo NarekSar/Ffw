@@ -244,24 +244,28 @@ end
 
 function Menus:sliderControl()
     if IsControlJustPressed(0, 174) then
-        if self.items[self.index].list[self.items[self.index].index - 1] then
-            self.items[self.index].index = self.items[self.index].index - 1
-            if self.items[self.index].onChange then
-                self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+        if self.items[self.index].list then
+            if self.items[self.index].list[self.items[self.index].index - 1] then
+                self.items[self.index].index = self.items[self.index].index - 1
+                if self.items[self.index].onChange then
+                    self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                end
+            else
+                self.items[self.index].index = #self.items[self.index].list
             end
-        else
-            self.items[self.index].index = #self.items[self.index].list
+            PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
         end
-        PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
     elseif IsControlJustPressed(0, 175) then
-        if self.items[self.index].list[self.items[self.index].index + 1] then
-            self.items[self.index].index = self.items[self.index].index + 1
-            if self.items[self.index].onChange then
-                self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+        if self.items[self.index].list then
+            if self.items[self.index].list[self.items[self.index].index + 1] then
+                self.items[self.index].index = self.items[self.index].index + 1
+                if self.items[self.index].onChange then
+                    self.items[self.index].onChange(self.items[self.index].index, self.items[self.index].list[self.items[self.index].index])
+                end
+            else
+                self.items[self.index].index = 1
             end
-        else
-            self.items[self.index].index = 1
+            PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
         end
-        PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
     end
 end

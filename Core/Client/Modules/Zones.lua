@@ -11,56 +11,58 @@ function Zones.create(params)
     self.marker = params.marker or nil
     self.methode = params.methode or nil
     self.radius = params.radius or 1.5
+    self.inputText = params.inputText or ""
 
     table.insert(ZonesAdded, self)
     return setmetatable(self, Zones)
 end
 
-local ShopPed = Peds.create("csb_abigail", {x = 27.98, y = -1031.78, z = 28.79, w = 0.0}, false)
-Shop = Zones.create({
-    ped = ShopPed,
+local TestPed = Peds.create("csb_abigail", vector4(-1324.721, 740.2681, 186.2021, 306.1417), false)
+Test = Zones.create({
+    ped = TestPed,
     blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    pos = ShopPed.pos,
-    methode = function()
-        print("test Fct")
-    end,
-})
-test = Zones.create({
-    ped = ShopPed,
-    blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    pos = ShopPed.pos,
-    methode = function()
-        print("test Fct")
-    end,
-})
-azd = Zones.create({
-    ped = ShopPed,
-    blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    pos = ShopPed.pos,
-    methode = function()
-        print("test Fct")
-    end,
-})
-vfvs = Zones.create({
-    ped = ShopPed,
-    blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    pos = ShopPed.pos,
+    marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
+    pos = TestPed.pos,
+    radius = 2.0,
+    inputText = "Appuyer sur E pour discuter.",
     methode = function()
         print("test Fct")
     end,
 })
 
+local ZoneTiming = 500
 Citizen.CreateThread( function()
-    Wait(2500)
-    Shop:showZone()
+    Wait(5000)
     for _,v in pairs (ZonesAdded) do
-        v.methode()
+        v:showZone()
+    end
+    while true do
+        Wait(ZoneTiming)
+        
+        for _,v in pairs (ZonesAdded) do
+            if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
+                ZoneTiming = 0
+                if v.marker ~= nil then
+                    v.marker:showMarker()
+                end
+                if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
+                    myPlayer:helpNotif(v.inputText)
+                    v.methode()
+                end
+            else
+                ZoneTiming = 500
+            end
+        end
     end
 end)
 
 function Zones:showZone()
     if self.ped then
         self.blip:entityBlips(self.ped.id)
+
+        self.ped:setInvincible(true)
+        self.ped:setFreeze(true)
+        self.ped:setPassif(true)
     else
         if not self.ped and self.blip then
             self.blip:blipCoords()

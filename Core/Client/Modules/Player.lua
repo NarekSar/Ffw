@@ -17,8 +17,13 @@ Player.__index = Player
     myPlayer:setCoords(vector3(0,0,0), 0) -- Set Player Coords
     myPlayer:FreezePlayer(true/false) -- Freeze Player
     myPlayer:DistancePlayer(vector(0,0,0), Heading) -- Get Distance Pos > Player
-    myPlayer:ShowNotification("Coucou") -- Notification Player
-    myPlayer:ShowAdvancedNotification('title', 'subject', 'msg', "CHAR_ARTHUR", 1) -- Advanced Notification Player
+    myPlayer:notify({ -- Add Notification
+	title = "Location",
+	message = 'Le véhicule à bien été ranger !',
+	type = "succes",
+    })
+    myPlayer:DisplayMap(true/false) -- Off / On Map + Radar
+    myPlayer:MissionNotif("Test", 1500) -- Mission Notif
 ]]
 
 
@@ -76,33 +81,74 @@ function Player:getArmor()
 end
 
 function Player:IsArmed()
-    return GetPedArmour(self.ped, 4)
+    return IsPedArmed(self.ped, 4)
 end
 
 function Player:IsInCar()
     return IsPedOnVehicle(self.ped)
 end
 
-function Player:DistancePlayer(Pos, Radius)
-    if GetDistanceBetweenCoords(Pos, myPlayer:getCoords(), true) < Radius then
+function Player:isNear(Pos, Radius)
+    local coords, head = self:getCoords()
+    if #(coords - Pos) <= Radius then
         return true
     end 
     return false
 end
 
-function Player:ShowNotification(msg)
-    SetNotificationTextEntry('STRING')
-    AddTextComponentString(msg)
-    DrawNotification(0, 1)
+function Player:notify(params)
+    local color = {
+        ["common"] = {0, 0, 0, 185},
+        ["succes"] = {0, 245, 0, 185},
+        ["error"] = {245, 0, 0, 185},
+    }
+    Citizen.CreateThread( function()
+        if not busy then
+            busy = true
+            self:timerNotif()
+            while busy do
+                Wait(0)
+
+                Draw:setRect(960, 952, 512, 128, color[params.type][1], color[params.type][2], color[params.type][3], color[params.type][4])
+                Draw:setText(960, 890, 0.55, params.title, 245, 245, 245, 245, 8)
+                Draw:setRect(960, 930, 128, 2, 245, 245, 245, 245)
+                Draw:setText(960, 940, 0.35, params.message, 245, 245, 245, 245, 8, 960+512)
+            end
+        end
+    end)
 end
 
-function Player:ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
-    if saveToBrief == nil then saveToBrief = true end
-	AddTextEntry('AdvancedNotification', msg)
-	BeginTextCommandThefeedPost('AdvancedNotification')
-	if hudColorIndex then ThefeedNextPostBackgroundColor(hudColorIndex) end
-	EndTextCommandThefeedPostMessagetext(textureDict, textureDict, false, iconType, sender, subject)
-	EndTextCommandThefeedPostTicker(flash or false, saveToBrief)
+function Player:timerNotif()
+    Citizen.CreateThread( function()
+        Wait(2500)
+        busy = false
+    end)
+end
+
+function Player:setPlayerModel(Hash)
+    Stream:loadModel(Hash)
+    local modelHash = GetHashKey(Hash)
+    SetPlayerModel(self.id, modelHash)
+    SetModelAsNoLongerNeeded(modelHash)
+end
+
+function Player:DisplayMap(bool) 
+    DisplayRadar(bool)
+end
+
+function Player:MissionNotif(msg, time) 
+    ClearPrints()
+    SetTextEntry_2("STRING")
+    AddTextComponentString(msg)
+    DrawSubtitleTimed(time and math.ceil(time) or 0, true)
+end
+
+function Player:helpNotif(msg)
+    if not IsHelpMessageOnScreen() then
+		SetTextComponentFormat('STRING')
+		AddTextComponentString(msg)
+		DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+	end
 end
 
 myPlayer = Player.new()

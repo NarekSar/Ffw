@@ -14,7 +14,8 @@ Cars.__index = Cars
     *Modify car model*
     [retVal]:setPrimaryColor(5) -- Set premiary vehicle color
     [retVal]:setSecondaryColor(5) -- Set secondary vehicle color
-    [retVal]:SetVehicleNumberPlateText("Location") -- Set plate of vehicle
+    [retVal]:setPlate("Location") -- Set plate of vehicle
+    [retVal]:DeleteCar() -- Delete Car
 ]]
 
 function Cars.create(Hash, Pos, Sync)
@@ -77,6 +78,13 @@ function Cars:setPlate(string)
     Wait(50)
     if self.exist then
         SetVehicleNumberPlateText(self.id, string)
+    end
+end
+
+function Cars:DeleteCar()
+    Wait(50)
+    if self.exist then
+        DeleteEntity(self.id)
     end
 end
 
