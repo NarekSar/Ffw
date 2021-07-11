@@ -32,8 +32,6 @@ Test = Zones.create({
     end,
 })
 
-
-
 local ZoneTiming = 500
 Citizen.CreateThread( function()
     Wait(5000)
@@ -43,25 +41,27 @@ Citizen.CreateThread( function()
     while true do
         Wait(ZoneTiming)
         
-        for _,v in pairs (ZonesAdded) do
-            if v.marker then
-                if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
+        if myPlayer then
+            for _,v in pairs (ZonesAdded) do
+                if v.marker then
+                    if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
+                        ZoneTiming = 0
+                        if v.marker ~= nil then
+                            v.marker:showMarker()
+                        end
+                    else
+                        ZoneTiming = 500
+                    end
+                end
+                if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
                     ZoneTiming = 0
-                    if v.marker ~= nil then
-                        v.marker:showMarker()
+                    if not crtMenu then
+                        myPlayer:helpNotif(v.inputText)
+                        v.methode()
                     end
                 else
                     ZoneTiming = 500
                 end
-            end
-            if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
-                ZoneTiming = 0
-                if not crtMenu then
-                    myPlayer:helpNotif(v.inputText)
-                    v.methode()
-                end
-            else
-                ZoneTiming = 500
             end
         end
     end

@@ -1,5 +1,7 @@
 CoreSett = {
+    useOneSync = true, -- For more feature if you use OneSync
     useMph = false, -- If false you will use Kmh
+    baseAccount = {money = 2500, bank = 7500, black = 0},
 }
 MenuSett = {
     background = {

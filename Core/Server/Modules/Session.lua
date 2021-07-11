@@ -4,6 +4,8 @@ Session.__index = Session
 function Session.create()
     local self = {}
 
+    self.id = 1
+
     return setmetatable(self, Session)
 end
 

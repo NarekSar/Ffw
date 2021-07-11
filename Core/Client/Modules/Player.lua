@@ -150,5 +150,3 @@ function Player:helpNotif(msg)
 		DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 	end
 end
-
-myPlayer = Player.new()
