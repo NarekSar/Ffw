@@ -4,10 +4,12 @@ games { 'gta5' };
 client_scripts {
     "Core/Settings.lua",
     "Core/Client/Modules/*.lua",
-    "Core/Client/Exemple.lua",
+    "Core/Client/*.lua",
 }
 
 server_scripts {
+    '@mysql-async/lib/MySQL.lua',
     "Core/Settings.lua",
     "Core/Server/Modules/*.lua",
+    "Core/Server/*.lua",
 }
