@@ -22,6 +22,7 @@ Player.__index = Player
 	message = 'Le véhicule à bien été ranger !',
 	type = "succes",
     })
+    myPlayer:DisplayMap(true/false) -- Off / On Map + Radar
 ]]
 
 
@@ -127,6 +128,10 @@ function Player:setPlayerModel(Hash)
     local modelHash = GetHashKey(Hash)
     SetPlayerModel(self.id, modelHash)
     SetModelAsNoLongerNeeded(modelHash)
+end
+
+function Player:DisplayMap(bool) 
+    DisplayRadar(bool)
 end
 
 myPlayer = Player.new()
