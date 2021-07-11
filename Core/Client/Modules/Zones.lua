@@ -32,6 +32,8 @@ Test = Zones.create({
     end,
 })
 
+
+
 local ZoneTiming = 500
 Citizen.CreateThread( function()
     Wait(5000)
