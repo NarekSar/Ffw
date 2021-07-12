@@ -46,9 +46,9 @@ Test = Zones.create({
     radius = 2.0, -- Le rayon de déclenchement de la zone
     inputText = "Appuyer sur E pour discuter.", -- Le text afficher lorsque je suis dans la zone
     methode = function()
-        if IsControlJustReleased(0, 51) then
+        E:onPress(function()
             mainMenu:open()
-        end
+        end)
     end, -- L'action effectué lorsque je suis dans la zone
 })
 ```
@@ -110,9 +110,9 @@ Test = Zones.create({
     radius = 2.0, -- Le rayon de déclenchement de la zone
     inputText = "Appuyer sur E pour discuter.", -- Le text afficher lorsque je suis dans la zone
     methode = function()
-        if IsControlJustReleased(0, 51) then
+        E:onPress(function()
             mainMenu:open()
-        end
+        end)
     end, -- L'action effectué lorsque je suis dans la zone
 })
 ```
