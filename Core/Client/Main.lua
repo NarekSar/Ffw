@@ -21,7 +21,7 @@ AddEventHandler("Ffw:InitPlayer", function()
 end)
 
 Citizen.CreateThread(function()
-    if CoreSett.useOneSync then
+    if not CoreSett.useOneSync then
         while true do
             Citizen.Wait(5000)
             local coords, heading = myPlayer:getCoords()
@@ -29,3 +29,4 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
