@@ -19,3 +19,13 @@ AddEventHandler("Ffw:InitPlayer", function()
 	    NetworkSetFriendlyFireOption(true)
     end
 end)
+
+Citizen.CreateThread(function()
+    if CoreSett.useOneSync then
+        while true do
+            Citizen.Wait(5000)
+            local coords, heading = myPlayer:getCoords()
+            TriggerServerEvent('Ffw:SavePlayerCoords', coords, heading)
+        end
+    end
+end)
