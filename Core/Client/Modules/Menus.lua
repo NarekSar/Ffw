@@ -122,12 +122,12 @@ function Menus:listRender(index, value)
                 Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/2), MenuSett.items.txtScale, self.items[index].label, 245, 245, 245, 255, 8)
                 Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/10), (MenuSett.items.txtScale/1.2), string.format("← %s →", self.items[index].list[self.items[index].index].label), 245, 245, 245, 255, 8)
             else
+                self:sliderControl()
                 Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/2), MenuSett.items.txtScale, self.items[index].label, 0, 0, 0, 255, 8)
                 Draw:setText((self.pos.x + (self.width/1.9)), crtY[index].y - (MenuSett.items.height/10), (MenuSett.items.txtScale/1.2), string.format("← %s →", self.items[index].list[self.items[index].index].label), 0, 0, 0, 255, 8)
                 Draw:setRect((self.pos.x + (self.width/1.9)), crtY[index].y, self.width, MenuSett.items.height, 245, 245, 245, 255)
             end
         end
-        self:sliderControl()
     end
 end
 
@@ -254,6 +254,7 @@ function Menus:sliderControl()
                 end
             else
                 self.items[self.index].index = #self.items[self.index].list
+                print(#self.items[self.index].list)
             end
             PlaySoundFrontend(-1, "NAV_LEFT_RIGHT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
         elseif IsControlJustPressed(0, 175) then
