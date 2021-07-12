@@ -50,16 +50,14 @@ AddEventHandler("Ffw:InitPlayer", function()
                 Wait(150)
                 local myData = Player.new(src, data, DataInv)
                 PlyData[src] = myData
-                TriggerClientEvent("Ffw:InitPlayer", src)
+                TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src])
             end)
         end
     end)
 end)
 
-Citizen.CreateThread( function()
-    Wait(5000)
-    local Player = getData(1)
-    print(Player:getAccount("money"))
-    Player:addMoney(1500)
-    print(Player:getAccount("money"))
+RegisterNetEvent('Ffw:SavePlayerCoords')
+AddEventHandler('Ffw:SavePlayerCoords', function(pos, heading)
+    local src = source
+    PlyData[src]:setPos(json.encode({x = pos.x, y = pos.y, z = pos.z, w = heading}))
 end)
