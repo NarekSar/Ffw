@@ -127,13 +127,17 @@ end
 
 function Player:setPlayerModel(Hash)
     Citizen.CreateThread(function()
-        Stream:loadModel(Hash)
+        RequestModel(Hash)
+        while not HasModelLoaded(Hash) do
+            RequestModel(Hash)
+            Wait(50)
+        end
         local modelHash = GetHashKey(Hash)
         SetPlayerModel(self.id, modelHash)
+        SetPedDefaultComponentVariation(GetPlayerPed(-1))
         SetModelAsNoLongerNeeded(modelHash)
     end)
 end
-
 function Player:displayMap(bool) 
     DisplayRadar(bool)
 end
