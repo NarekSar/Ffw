@@ -130,6 +130,7 @@ function Player:setPlayerModel(Hash)
         Stream:loadModel(Hash)
         local modelHash = GetHashKey(Hash)
         SetPlayerModel(self.id, modelHash)
+        SetPedDefaultComponentVariation(self.ped)
         SetModelAsNoLongerNeeded(modelHash)
     end)
 end
