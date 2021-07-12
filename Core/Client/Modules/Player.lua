@@ -126,13 +126,11 @@ function Player:timerNotif()
 end
 
 function Player:setPlayerModel(Hash)
-    Citizen.CreateThread(function()
         Stream:loadModel(Hash)
         local modelHash = GetHashKey(Hash)
         SetPlayerModel(self.id, modelHash)
-        SetPedDefaultComponentVariation(self.ped)
-        SetModelAsNoLongerNeeded(modelHash)
-    end)
+	SetPedDefaultComponentVariation(self.ped)
+	SetModelAsNoLongerNeeded(modelHash)
 end
 
 function Player:displayMap(bool) 
