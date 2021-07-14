@@ -98,6 +98,10 @@ function Player:getCoords()
     end
 end
 
+function Player:getBucket()
+    return (self.id + 1000)
+end
+
 function Player:enterBucket()
     if CoreSett.useOneSync then
         SetPlayerRoutingBucket(self.id, (self.id + 1000))
