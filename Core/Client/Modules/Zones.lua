@@ -17,27 +17,23 @@ function Zones.create(params)
     return setmetatable(self, Zones)
 end
 
-local TestPed = Peds.create("csb_abigail", vector4(-1543.253, 830.0703, 182.1245, 0), false)
+local TestPed = Peds.create("a_f_m_beach_01", vector4(-2612.967, 3555.02, 4.847656, 0), false)
 Test = Zones.create({
     ped = TestPed,
     blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    --marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
+    marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
     pos = TestPed.pos,
     radius = 2.0,
     inputText = "Appuyer sur E pour discuter.",
     methode = function()
-        if IsControlJustReleased(0, 51) then
+        E:onPress(function()
             mainMenu:open()
-        end
+        end)
     end,
 })
 
 local ZoneTiming = 500
 Citizen.CreateThread( function()
-    Wait(5000)
-    for _,v in pairs (ZonesAdded) do
-        v:showZone()
-    end
     while true do
         Wait(ZoneTiming)
         
@@ -56,11 +52,15 @@ Citizen.CreateThread( function()
                 if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
                     ZoneTiming = 0
                     if not crtMenu then
-                        myPlayer:helpNotif(v.inputText)
-                        v.methode()
+                        Citizen.CreateThread( function()
+                            myPlayer:helpNotif(v.inputText)
+                            v.methode()
+                        end)
                     end
                 else
-                    ZoneTiming = 500
+                    if not v.marker then
+                        ZoneTiming = 500
+                    end
                 end
             end
         end

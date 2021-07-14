@@ -19,11 +19,10 @@ mainMenu:addButton({
 })
 
 mainMenu:addList({
-    label = "Véhicule Disponible",
+    label = "Ntm jt'aime pas",
     list = {
-        {label = "Sultan", value = "sultan"},
-        {label = "Panto", value = "panto"},
-        {label = "Bmx", value = "bmx"},
+        {label = "Ah oui oui oui", value = "sultan"},
+        {label = "KAARIS", value = "panto"},
     },
     index = 1,
     onChange = function(Index, Items)

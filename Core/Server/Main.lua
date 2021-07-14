@@ -21,45 +21,37 @@ AddEventHandler("Ffw:InitPlayer", function()
                 DataInv = inventory
                 local myData = Player.new(src, data, DataInv)
                 PlyData[src] = myData
-                TriggerClientEvent("Ffw:InitPlayer", src)
+                TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src])
             end)
         else
             MySQL.Async.execute('INSERT INTO players (identifier, account) VALUES (@identifier, @account)', {
                 ['@identifier'] = identifier,
                 ['@account'] = json.encode(CoreSett.baseAccount)
             }, function()
-                for _,v in pairs(ItemsList) do
-                    MySQL.Async.execute('INSERT INTO players_inv (identifier, item_label, item_name, item_count) VALUES (@identifier, @item_label, @item_name, @item_count)', {
-                        ['@identifier'] = identifier,
-                        ['@item_label'] = v.item_label,
-                        ['@item_name'] = v.item_name,
-                        ['@item_count'] = 0
-                    }, function()
-                    end)
-                    MySQL.Async.fetchAll('SELECT * FROM players_inv WHERE identifier = @identifier', {
-                        ['@identifier'] = identifier
-                    }, function(inventory)
-                        data.id = src
-                        data.identifier = identifier
-                        data.group = "user"
-                        data.vip = false
-                        data.account = CoreSett.baseAccount
-                        DataInv = inventory
-                    end)
-                end
-                Wait(150)
-                local myData = Player.new(src, data, DataInv)
+                data.id = src
+                data.identifier = identifier
+                data.group = "user"
+                data.vip = false
+                data.account = CoreSett.baseAccount
+                data.coords = nil
+                local myData = Player.new(src, data, {})
                 PlyData[src] = myData
-                TriggerClientEvent("Ffw:InitPlayer", src)
+                TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src])
             end)
         end
     end)
 end)
 
-Citizen.CreateThread( function()
-    Wait(5000)
-    local Player = getData(1)
-    print(Player:getAccount("money"))
-    Player:addMoney(1500)
-    print(Player:getAccount("money"))
+RegisterNetEvent('Ffw:SavePlayerCoords')
+AddEventHandler('Ffw:SavePlayerCoords', function(pos, heading)
+    local myPlayer = Players(source)
+    myPlayer:saveCoords({x = pos.x, y = pos.y, z = pos.z, h = heading})
+end)
+
+AddEventHandler('playerDropped', function()
+    local myPlayer = Players(source)
+    if CoreSett.useOneSync then
+        local xCoords = myPlayer:getCoords()
+        myPlayer:saveCoords(xCoords)
+    end
 end)
