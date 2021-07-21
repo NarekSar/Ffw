@@ -8,6 +8,7 @@ function Zones.create(params)
     self.pos = params.pos or nil
     self.blip = params.blip or nil
     self.ped = params.ped or nil
+    self.forJob = params.forJob or nil
     self.marker = params.marker or nil
     self.methode = params.methode or nil
     self.radius = params.radius or 1.5
@@ -17,7 +18,7 @@ function Zones.create(params)
     return setmetatable(self, Zones)
 end
 
-local TestPed = Peds.create("a_f_m_beach_01", vector4(-2612.967, 3555.02, 4.847656, 0), false)
+local TestPed = Peds.create("a_f_m_beach_01", vector4(655.3187, 457.3319, 144.6337, 56.69291), false)
 Test = Zones.create({
     ped = TestPed,
     blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
@@ -25,6 +26,7 @@ Test = Zones.create({
     pos = TestPed.pos,
     radius = 2.0,
     inputText = "Appuyer sur E pour discuter.",
+    forJob = "Police",
     methode = function()
         E:onPress(function()
             mainMenu:open()
@@ -43,7 +45,15 @@ Citizen.CreateThread( function()
                     if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
                         ZoneTiming = 0
                         if v.marker ~= nil then
-                            v.marker:showMarker()
+                            if not v.forJob then
+                                v.marker:showMarker()
+                            else
+                                if v.forJob == myPlayer.jobName then
+                                    if v.marker ~= nil then
+                                        v.marker:showMarker()
+                                    end
+                                end
+                            end
                         end
                     else
                         ZoneTiming = 500
@@ -53,8 +63,15 @@ Citizen.CreateThread( function()
                     ZoneTiming = 0
                     if not crtMenu then
                         Citizen.CreateThread( function()
-                            myPlayer:helpNotif(v.inputText)
-                            v.methode()
+                            if not v.forJob then
+                                myPlayer:helpNotif(v.inputText)
+                                v.methode()
+                            else
+                                if v.forJob == myPlayer.jobName then
+                                    myPlayer:helpNotif(v.inputText)
+                                    v.methode()
+                                end
+                            end
                         end)
                     end
                 else
@@ -70,7 +87,7 @@ end)
 function Zones:showZone()
     if self.ped then
         self.blip:entityBlips(self.ped.id)
-
+        Wait(250)
         self.ped:setInvincible(true)
         self.ped:setFreeze(true)
         self.ped:setPassif(true)

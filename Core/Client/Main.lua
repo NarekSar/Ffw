@@ -18,7 +18,6 @@ AddEventHandler("Ffw:InitPlayer", function(data)
         SetCanAttackFriendly(PlayerPedId(), true, false)
 	    NetworkSetFriendlyFireOption(true)
     end
-    print(json.encode(data))
     if data.coords then
         myPlayer:setCoords(vector3(data.coords.x, data.coords.y, data.coords.z), data.coords.h)
     else

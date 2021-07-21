@@ -10,8 +10,10 @@ function Player.new(id, data)
     self.identifier = data.identifier
     self.vip = data.vip
     self.group = data.group
+    self.jobName = data.jobName or "unemployed"
+    self.jobGrade = data.jobGrade or 0
     if data.coords then
-        self.coords = json.decode(data.coords)
+        self.coords = data.coords
     end
     self.name = data.name or nil
     self.account = data.account

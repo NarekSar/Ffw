@@ -7,9 +7,9 @@ CoreSett = {
     basePosition = {x = 0, y = 0, z = 0, w = 0}
 }
 MenuSett = {
-    background = {
-        width = 512, height = 128,
-        txtScale = 0.95,
+    Header = {
+        width = 435, height = 128,
+        txtScale = 1.0, xOffset = 20,
     },
     items = {
         width = 512, height = 48,

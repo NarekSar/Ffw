@@ -44,7 +44,5 @@ function Player:saveInventory()
     {
         ['@identifier'] = self.identifier,
         ['@inventory'] = inventory
-    }, function()
-        print(inventory)
-    end)
+    })
 end

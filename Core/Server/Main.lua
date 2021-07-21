@@ -15,7 +15,13 @@ AddEventHandler("Ffw:InitPlayer", function()
 	}, function(result)
         if result[1] then
             local res = result[1]
+            data.group = res.group
+            data.vip = res.vip
+            data.coords = json.decode(res.coords)
+            
             data.account = json.decode(res.account)
+            if res.jobName then data.jobName = res.jobName end
+            if res.jobGrade then data.jobGrade = res.jobGrade end
             if res.inventory then
                 data.inventory = json.decode(res.inventory)
             end
@@ -30,6 +36,8 @@ AddEventHandler("Ffw:InitPlayer", function()
                 data.id = src
                 data.group = "user"
                 data.vip = false
+                data.jobName = "unemployed"
+                data.jobGrade = 0
                 data.account = CoreSett.baseAccount
                 data.inventory = {}
                 data.coords = nil
