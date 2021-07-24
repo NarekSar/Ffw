@@ -91,6 +91,10 @@ function Player:saveCoords(coords)
     })
 end
 
+function Player:triggerClient(eventName, ...)
+    TriggerClientEvent(eventName, self.id, ...)
+end
+
 RegisterServerEvent("Ffw:testFramework")
 AddEventHandler("Ffw:testFramework", function(bool)
     local myPlayer = Players(source)

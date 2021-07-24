@@ -6,7 +6,9 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent("Ffw:InitPlayer")
-AddEventHandler("Ffw:InitPlayer", function(data)
+AddEventHandler("Ffw:InitPlayer", function(data, items)
+    Data.Items = items
+    print(json.encode(items))
     for _,v in pairs (ZonesAdded) do
         v:showZone()
     end

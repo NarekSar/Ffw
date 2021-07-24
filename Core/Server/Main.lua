@@ -27,7 +27,7 @@ AddEventHandler("Ffw:InitPlayer", function()
             end
             local myData = Player.new(src, data)
             PlyData[src] = myData
-            TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src])
+            TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src], ItemsAdded)
         else
             MySQL.Async.execute('INSERT INTO players (identifier, account) VALUES (@identifier, @account)', {
                 ['@identifier'] = identifier,
@@ -43,7 +43,7 @@ AddEventHandler("Ffw:InitPlayer", function()
                 data.coords = nil
                 local myData = Player.new(src, data)
                 PlyData[src] = myData
-                TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src])
+                TriggerClientEvent("Ffw:InitPlayer", src, PlyData[src], ItemsAdded)
             end)
         end
     end)

@@ -1,6 +1,7 @@
 Zones = {}
 Zones.__index = Zones
 ZonesAdded = {}
+local ActualZone = nil
 
 function Zones.create(params)
     local self = {}
@@ -18,22 +19,6 @@ function Zones.create(params)
     return setmetatable(self, Zones)
 end
 
-local TestPed = Peds.create("a_f_m_beach_01", vector4(655.3187, 457.3319, 144.6337, 56.69291), false)
-Test = Zones.create({
-    ped = TestPed,
-    blip = Blips.create({label = "Test", sprite = 1, colour = 3, scale = 0.7,}),
-    marker = Markers.create({type = 2, radius = 15.0, pos = vector3(TestPed.pos.x, TestPed.pos.y, TestPed.pos.z + 1.18), width = 0.3, height = 0.3, colour = {r = 0, g = 245, b = 245, a = 185}, blowUp = true, faceCam = true, inversed = true}),
-    pos = TestPed.pos,
-    radius = 2.0,
-    inputText = "Appuyer sur E pour discuter.",
-    forJob = "Police",
-    methode = function()
-        E:onPress(function()
-            mainMenu:open()
-        end)
-    end,
-})
-
 local ZoneTiming = 500
 Citizen.CreateThread( function()
     while true do
@@ -44,23 +29,13 @@ Citizen.CreateThread( function()
                 if v.marker then
                     if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.marker.radius) then
                         ZoneTiming = 0
-                        if v.marker ~= nil then
-                            if not v.forJob then
-                                v.marker:showMarker()
-                            else
-                                if v.forJob == myPlayer.jobName then
-                                    if v.marker ~= nil then
-                                        v.marker:showMarker()
-                                    end
-                                end
-                            end
-                        end
-                    else
-                        ZoneTiming = 500
+                        ActualZone = v
+                        v.marker:showMarker()
                     end
                 end
                 if myPlayer:isNear(vector3(v.pos.x, v.pos.y, v.pos.z), v.radius) then
                     ZoneTiming = 0
+                    ActualZone = v
                     if not crtMenu then
                         Citizen.CreateThread( function()
                             if not v.forJob then
@@ -75,8 +50,13 @@ Citizen.CreateThread( function()
                         end)
                     end
                 else
-                    if not v.marker then
+                    if not ActualZone then
                         ZoneTiming = 500
+                    else
+                        if not myPlayer:isNear(vector3(ActualZone.pos.x, ActualZone.pos.y, ActualZone.pos.z), ActualZone.radius) then
+                            ZoneTiming = 500
+                            ActualZone = nil
+                        end
                     end
                 end
             end
