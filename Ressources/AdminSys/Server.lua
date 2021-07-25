@@ -32,7 +32,7 @@ function saveNewItem(source, item)
     MySQL.Async.execute('INSERT INTO items (label, name, limite, inLtd, price, type) VALUES (@label, @name, @limite, @inLtd, @price, @type)', {
         ['@label'] = item.Label,
         ['@name'] = item.Name,
-        ['@type'] = item.type,
+        ['@type'] = item.Type,
         ['@limite'] = item.Limite,
         ['@inLtd'] = item.inLtd,
         ['@price'] = item.Price
