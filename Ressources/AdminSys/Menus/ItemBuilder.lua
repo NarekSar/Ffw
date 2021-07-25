@@ -4,7 +4,7 @@ local newItem = {
     Limite = "",
     inLtd = false,
     Price = "",
-    Type = "",
+    Type = "food",
     typeIndex = 1,
 }
 
@@ -16,7 +16,7 @@ AddEventHandler("Ffw:resetItemBuilder", function()
         Limite = "",
         inLtd = false,
         Price = "",
-        Type = "",
+        Type = "food",
         typeIndex = 1,
     }
     myPlayer:notify("L'objet à bien était créer.")
